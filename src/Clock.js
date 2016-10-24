@@ -3,6 +3,7 @@ var moment = require('moment');
 var React = require('react');
 var InputSlider = require('react-input-slider');
 
+
 module.exports = React.createClass({
   displayName: 'Time',
 
@@ -45,16 +46,16 @@ module.exports = React.createClass({
             onChange={this.changeMinutes}
           />
           {this.props.showSeconds &&
-            <div>
-              <div className="time-text">Seconds:</div>
-              <InputSlider
-                className="u-slider-time"
-                xmin={0}
-                xmax={59}
-                x={m.second()}
-                onChange={this.changeSeconds}
-              />
-            </div>
+            <div className="time-text">Seconds:</div>
+          }
+          {this.props.showSeconds &&
+            <InputSlider
+              className="u-slider-time"
+              xmin={0}
+              xmax={59}
+              x={m.second()}
+              onChange={this.changeSeconds}
+            />
           }
         </div>
       </div>
@@ -79,3 +80,4 @@ module.exports = React.createClass({
     this.props.onChange(m);
   }
 });
+
