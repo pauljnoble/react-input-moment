@@ -26,23 +26,43 @@ module.exports = React.createClass({
   displayName: 'Calendar',
 
   getMoment() {
-    return this.props.moment || moment();
+    var m;
+    if (this.props.moment) {
+      m = this.props.moment.clone();
+    } else {
+      m = moment()
+    }
+    if (this.props.locale) {
+      m = m.locale(this.props.locale);
+    }
+    return m;
   },
 
   render() {
     var m = this.getMoment();
-    var d = m.date();
-    var d1 = m.clone().subtract(1, 'month').endOf('month').date();
-    var d2 = m.clone().date(1).day();
-    var d3 = m.clone().endOf('month').date();
+    var current = m.date();
+    var firstDayOfWeek = m.localeData().firstDayOfWeek();
+    var endOfPreviousMonth = m.clone().subtract(1, 'month').endOf('month').date();
+    var startDayOfCurrentMonth = m.clone().date(1).day();
+    var endOfCurrentMonth = m.clone().endOf('month').date();
 
     var days = [].concat(
-      range(d1-d2+1, d1+1),
-      range(1, d3+1),
-      range(1, 42-d3-d2+1)
+      range(
+        (endOfPreviousMonth - startDayOfCurrentMonth + firstDayOfWeek + 1),
+        (endOfPreviousMonth + 1)
+      ),
+      range(
+        1,
+        (endOfCurrentMonth + 1)
+      ),
+      range(
+        1,
+        (42 - endOfCurrentMonth - startDayOfCurrentMonth + firstDayOfWeek + 1)
+      )
     );
 
-    var weeks = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    var weeks = m.localeData().weekdaysShort();
+    weeks = weeks.slice(firstDayOfWeek).concat(weeks.slice(0, firstDayOfWeek));
 
     return (
       <div className={cx('m-calendar', this.props.className)}>
@@ -67,7 +87,7 @@ module.exports = React.createClass({
             {chunk(days, 7).map((row, w) => (
               <tr key={w}>
                 {row.map((i) => (
-                  <Day key={i} i={i} d={d} w={w}
+                  <Day key={i} i={i} d={current} w={w}
                     onClick={this.selectDate.bind(null, i, w)}
                   />
                 ))}

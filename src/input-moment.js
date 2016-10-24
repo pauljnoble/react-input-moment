@@ -39,14 +39,16 @@ module.exports = React.createClass({
           <Calendar
             className={cx('tab', {'is-active': tab === 0})}
             moment={m}
+            locale={this.props.locale}
             onChange={this.props.onChange}
             prevMonthIcon={this.props.prevMonthIcon}
             nextMonthIcon={this.props.nextMonthIcon}
           />
           <Time
             className={cx('tab', {'is-active': tab === 1})}
-            showSeconds={this.props.showSeconds}
             moment={m}
+            showSeconds={this.props.showSeconds}
+            locale={this.props.locale}
             onChange={this.props.onChange}
           />
         </div>

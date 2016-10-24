@@ -13,7 +13,8 @@ var App = React.createClass({
   getInitialState() {
     return {
       m: null,
-      showSeconds: true
+      showSeconds: true,
+      locale: 'en'
     };
   },
 
@@ -37,9 +38,18 @@ var App = React.createClass({
               />
             Show Seconds
           </label>
+          <label>
+            Locale:
+            <select value={this.state.locale} onChange={this.handleLocale}>
+              <option value="en">English</option>
+              <option value="fr">French</option>
+              <option value="ar">Arabic</option>
+            </select>
+          </label>
         </div>
         <InputMoment
           moment={this.state.m}
+          locale={this.state.locale}
           showSeconds={this.state.showSeconds}
           onChange={this.handleChange}
           onSave={this.handleSave}
@@ -51,6 +61,10 @@ var App = React.createClass({
 
   handleShowSeconds(e) {
     this.setState({showSeconds: e.target.checked});
+  },
+
+  handleLocale(e) {
+    this.setState({locale: e.target.value});
   },
 
   handleChange(m) {
