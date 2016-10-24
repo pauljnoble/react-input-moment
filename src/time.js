@@ -19,6 +19,12 @@ module.exports = React.createClass({
           <span className="time">{m.format('HH')}</span>
           <span className="separater">:</span>
           <span className="time">{m.format('mm')}</span>
+          {this.props.showSeconds &&
+            <span>
+              <span className="separater">:</span>
+              <span className="time">{m.format('ss')}</span>
+            </span>
+          }
         </div>
 
         <div className="sliders">
@@ -38,6 +44,18 @@ module.exports = React.createClass({
             x={m.minute()}
             onChange={this.changeMinutes}
           />
+          {this.props.showSeconds &&
+            <div>
+              <div className="time-text">Seconds:</div>
+              <InputSlider
+                className="u-slider-time"
+                xmin={0}
+                xmax={59}
+                x={m.second()}
+                onChange={this.changeSeconds}
+              />
+            </div>
+          }
         </div>
       </div>
     );
@@ -52,6 +70,12 @@ module.exports = React.createClass({
   changeMinutes(pos) {
     var m = this.getMoment();
     m.minutes(parseInt(pos.x, 10));
+    this.props.onChange(m);
+  },
+
+  changeSeconds(pos) {
+    var m = this.getMoment();
+    m.seconds(parseInt(pos.x, 10));
     this.props.onChange(m);
   }
 });

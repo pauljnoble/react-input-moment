@@ -45,6 +45,7 @@ module.exports = React.createClass({
           />
           <Time
             className={cx('tab', {'is-active': tab === 1})}
+            showSeconds={this.props.showSeconds}
             moment={m}
             onChange={this.props.onChange}
           />

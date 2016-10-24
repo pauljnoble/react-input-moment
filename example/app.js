@@ -12,7 +12,8 @@ var App = React.createClass({
 
   getInitialState() {
     return {
-      m: null
+      m: null,
+      showSeconds: true
     };
   },
 
@@ -28,9 +29,18 @@ var App = React.createClass({
             value={this.state.m ? this.state.m.format('llll') : ''}
             readOnly
           />
+          <label>
+            <input
+              type="checkbox"
+              checked={this.state.showSeconds}
+              onChange={this.handleShowSeconds}
+              />
+            Show Seconds
+          </label>
         </div>
         <InputMoment
           moment={this.state.m}
+          showSeconds={this.state.showSeconds}
           onChange={this.handleChange}
           onSave={this.handleSave}
         />
@@ -39,12 +49,16 @@ var App = React.createClass({
     );
   },
 
+  handleShowSeconds(e) {
+    this.setState({showSeconds: e.target.checked});
+  },
+
   handleChange(m) {
     this.setState({m: m});
   },
 
   handleSave() {
-    console.log('saved');
+    console.log('saved', this.state.m ? this.state.m.toDate() : null);
   }
 });
 
