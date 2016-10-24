@@ -25,8 +25,12 @@ var Day = React.createClass({
 module.exports = React.createClass({
   displayName: 'Calendar',
 
+  getMoment() {
+    return this.props.moment || moment();
+  },
+
   render() {
-    var m = this.props.moment;
+    var m = this.getMoment();
     var d = m.date();
     var d1 = m.clone().subtract(1, 'month').endOf('month').date();
     var d2 = m.clone().date(1).day();
@@ -76,9 +80,9 @@ module.exports = React.createClass({
   },
 
   selectDate(i, w) {
+    var m = this.getMoment();
     var prevMonth = (w === 0 && i > 7);
     var nextMonth = (w >= 4 && i <= 14);
-    var m = this.props.moment;
 
     m.date(i);
     if(prevMonth) m.subtract(1, 'month');
@@ -89,11 +93,13 @@ module.exports = React.createClass({
 
   prevMonth(e) {
     e.preventDefault();
-    this.props.onChange(this.props.moment.subtract(1, 'month'));
+    var m = this.getMoment();
+    this.props.onChange(m.subtract(1, 'month'));
   },
 
   nextMonth(e) {
     e.preventDefault();
-    this.props.onChange(this.props.moment.add(1, 'month'));
+    var m = this.getMoment();
+    this.props.onChange(m.add(1, 'month'));
   }
 });
