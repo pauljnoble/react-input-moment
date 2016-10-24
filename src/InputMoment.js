@@ -1,5 +1,8 @@
 var cx = require('classnames');
 var React = require('react');
+var CalendarIcon = require('react-icons/lib/fa/calendar');
+var ClockIcon = require('react-icons/lib/fa/clock-o');
+
 var Calendar = require('./Calendar');
 var Clock = require('./Clock');
 
@@ -13,13 +16,6 @@ module.exports = React.createClass({
     };
   },
 
-  getDefaultProps() {
-    return {
-      prevMonthIcon: 'ion-ios-arrow-left',
-      nextMonthIcon: 'ion-ios-arrow-right'
-    };
-  },
-
   render() {
     var tab = this.state.tab;
     var m = this.props.moment;
@@ -27,11 +23,25 @@ module.exports = React.createClass({
     return (
       <div className="m-input-moment">
         <div className="options">
-          <button type="button" className={cx('ion-calendar im-btn', {'is-active': tab === 0})} onClick={this.handleClickTab.bind(null, 0)}>
-            Date
+          <button type="button" className={cx('im-btn', {'is-active': tab === 0})} onClick={this.handleClickTab.bind(null, 0)}>
+            <CalendarIcon
+              style={{
+                fontSize: '18px',
+                marginRight: '5px',
+                verticalAlign: 'middle',
+              }}
+              />
+            <span style={{verticalAlign: 'middle'}}>Date</span>
           </button>
-          <button type="button" className={cx('ion-clock im-btn', {'is-active': tab === 1})} onClick={this.handleClickTab.bind(null, 1)}>
-            Time
+          <button type="button" className={cx('im-btn', {'is-active': tab === 1})} onClick={this.handleClickTab.bind(null, 1)}>
+            <ClockIcon
+              style={{
+                fontSize: '18px',
+                marginRight: '5px',
+                verticalAlign: 'middle',
+              }}
+              />
+            <span style={{verticalAlign: 'middle'}}>Time</span>
           </button>
         </div>
 
@@ -41,8 +51,6 @@ module.exports = React.createClass({
             moment={m}
             locale={this.props.locale}
             onChange={this.props.onChange}
-            prevMonthIcon={this.props.prevMonthIcon}
-            nextMonthIcon={this.props.nextMonthIcon}
           />
           <Clock
             className={cx('tab', {'is-active': tab === 1})}

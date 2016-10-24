@@ -3,6 +3,8 @@ var moment = require('moment');
 var React = require('react');
 var range = require('lodash/utility/range');
 var chunk = require('lodash/array/chunk');
+var LeftIcon = require('react-icons/lib/fa/chevron-circle-left');
+var RightIcon = require('react-icons/lib/fa/chevron-circle-right');
 
 
 var Day = React.createClass({
@@ -69,13 +71,15 @@ module.exports = React.createClass({
     return (
       <div className={cx('m-calendar', this.props.className)}>
         <div className="toolbar">
-          <button type="button" className="prev-month" onClick={this.prevMonth}>
-            <i className={this.props.prevMonthIcon}/>
-          </button>
+          <LeftIcon
+            className="nav prev"
+            onClick={this.prevMonth}
+            />
           <span className="current-date">{m.format('MMMM YYYY')}</span>
-          <button type="button" className="next-month" onClick={this.nextMonth}>
-            <i className={this.props.nextMonthIcon}/>
-          </button>
+          <RightIcon
+            className="nav next"
+            onClick={this.nextMonth}
+            />
         </div>
 
         <table>

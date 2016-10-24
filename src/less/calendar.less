@@ -50,7 +50,7 @@
     line-height: 30px;
     color: @color-blue;
     text-align: center;
-    margin-bottom: 13px;
+    margin-bottom: 5px;
 
     button {
       position: relative;
@@ -69,12 +69,17 @@
       cursor: pointer;
     }
 
-    .prev-month {
-      float: left;
-    }
+    .nav {
+        cursor: pointer;
+        font-size: 30px;
 
-    .next-month {
-      float: right;
+        &.prev {
+          float: left;
+        }
+
+        &.next {
+          float: right;
+        }
     }
 
     .current-date {
