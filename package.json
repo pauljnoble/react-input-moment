@@ -1,6 +1,6 @@
 {
-  "name": "input-moment",
-  "version": "0.3.0",
+  "name": "react-input-moment",
+  "version": "0.4.0",
   "description": "React datetime picker powered by momentjs",
   "main": "index.js",
   "scripts": {
@@ -15,7 +15,10 @@
   "github-pages-deploy": {
     "src": "example"
   },
-  "author": "Wang Zuo",
+  "contributors": [
+    {"name": "Wang Zou"},
+    {"name": "Prometheus Research, LLC"}
+  ],
   "license": "ISC",
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0",
@@ -45,7 +48,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wangzuo/input-moment.git"
+    "url": "git+https://github.com/prometheusresearch/react-input-moment.git"
   },
   "keywords": [
     "react",
@@ -54,9 +57,5 @@
     "datetime",
     "picker",
     "moment"
-  ],
-  "bugs": {
-    "url": "https://github.com/wangzuo/input-moment/issues"
-  },
-  "homepage": "https://github.com/wangzuo/input-moment#readme"
+  ]
 }
