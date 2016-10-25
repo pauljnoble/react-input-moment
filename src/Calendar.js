@@ -22,7 +22,7 @@ var Day = React.createClass({
       'current': !prevMonth && !nextMonth && (i === this.props.d)
     });
 
-    return <td className={cn} {... this.props}>{i}</td>;
+    return <td className={cn} onClick={this.props.onClick}>{i}</td>;
   }
 });
 
