@@ -19,25 +19,27 @@ var YearOfMonths = React.createClass({
           onScope={this.props.onScope}
           />
         <table>
-          {chunk(months, 3).map((row, ridx) => {
-            return (
-              <tr key={ridx}>
-                {row.map((month, midx) => {
-                  var month_num = (ridx * 3) + midx;
-                  return (
-                    <td
-                      key={midx}
-                      className={cx({
-                        current: this.props.moment.month() === month_num
-                      })}
-                      onClick={this.onSelect.bind(this, month_num)}>
-                      {month}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
+          <tbody>
+            {chunk(months, 3).map((row, ridx) => {
+              return (
+                <tr key={ridx}>
+                  {row.map((month, midx) => {
+                    var month_num = (ridx * 3) + midx;
+                    return (
+                      <td
+                        key={midx}
+                        className={cx({
+                          current: this.props.moment.month() === month_num
+                        })}
+                        onClick={this.onSelect.bind(this, month_num)}>
+                        {month}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </div>
     );
@@ -73,24 +75,26 @@ var DecadeOfYears = React.createClass({
           onScope={this.props.onScope}
           />
         <table>
-          {chunk(years, 2).map((row, ridx) => {
-            return (
-              <tr key={ridx}>
-                {row.map((year, yidx) => {
-                  return (
-                    <td
-                      key={yidx}
-                      className={cx({
-                        current: this.props.moment.year() === year
-                      })}
-                      onClick={this.onSelect.bind(this, year)}>
-                      {year}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
+          <tbody>
+            {chunk(years, 2).map((row, ridx) => {
+              return (
+                <tr key={ridx}>
+                  {row.map((year, yidx) => {
+                    return (
+                      <td
+                        key={yidx}
+                        className={cx({
+                          current: this.props.moment.year() === year
+                        })}
+                        onClick={this.onSelect.bind(this, year)}>
+                        {year}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </div>
     );
@@ -127,25 +131,27 @@ var CenturyOfDecades = React.createClass({
           onScope={this.props.onScope}
           />
         <table>
-          {chunk(years, 2).map((row, ridx) => {
-            return (
-              <tr key={ridx}>
-                {row.map((decade, yidx) => {
-                  var decade_end = decade + 9;
-                  return (
-                    <td
-                      key={yidx}
-                      className={cx({
-                        current: (this.props.moment.year() >= decade) && (this.props.moment.year() <= decade_end)
-                      })}
-                      onClick={this.onSelect.bind(this, decade)}>
-                      {decade} - {decade_end}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
+          <tbody>
+            {chunk(years, 2).map((row, ridx) => {
+              return (
+                <tr key={ridx}>
+                  {row.map((decade, yidx) => {
+                    var decade_end = decade + 9;
+                    return (
+                      <td
+                        key={yidx}
+                        className={cx({
+                          current: (this.props.moment.year() >= decade) && (this.props.moment.year() <= decade_end)
+                        })}
+                        onClick={this.onSelect.bind(this, decade)}>
+                        {decade} - {decade_end}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </div>
     );
