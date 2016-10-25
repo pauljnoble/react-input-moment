@@ -3,8 +3,9 @@ var moment = require('moment');
 var React = require('react');
 var range = require('lodash/utility/range');
 var chunk = require('lodash/array/chunk');
-var LeftIcon = require('react-icons/lib/fa/chevron-circle-left');
-var RightIcon = require('react-icons/lib/fa/chevron-circle-right');
+
+var CalendarToolbar = require('./CalendarToolbar');
+var CalendarScoper = require('./CalendarScoper');
 
 
 var Day = React.createClass({
@@ -18,7 +19,7 @@ var Day = React.createClass({
     var cn = cx({
       'prev-month': prevMonth,
       'next-month': nextMonth,
-      'current-day': !prevMonth && !nextMonth && (i === this.props.d)
+      'current': !prevMonth && !nextMonth && (i === this.props.d)
     });
 
     return <td className={cn} {... this.props}>{i}</td>;
@@ -28,6 +29,12 @@ var Day = React.createClass({
 
 module.exports = React.createClass({
   displayName: 'Calendar',
+
+  getInitialState() {
+    return {
+      mode: 'date',
+    };
+  },
 
   getMoment() {
     var m;
@@ -44,65 +51,90 @@ module.exports = React.createClass({
 
   render() {
     var m = this.getMoment();
-    var current = m.date();
-    var firstDayOfWeek = m.localeData().firstDayOfWeek();
-    var endOfPreviousMonth = m.clone().subtract(1, 'month').endOf('month').date();
-    var startDayOfCurrentMonth = m.clone().date(1).day();
-    var endOfCurrentMonth = m.clone().endOf('month').date();
 
-    var days = [].concat(
-      range(
-        (endOfPreviousMonth - startDayOfCurrentMonth + firstDayOfWeek + 1),
-        (endOfPreviousMonth + 1)
-      ),
-      range(
-        1,
-        (endOfCurrentMonth + 1)
-      ),
-      range(
-        1,
-        (42 - endOfCurrentMonth - startDayOfCurrentMonth + firstDayOfWeek + 1)
-      )
-    );
+    var content;
+    if (this.state.mode === 'scope') {
+      content = (
+        <CalendarScoper
+          moment={m}
+          onComplete={this.onScopeComplete}
+          />
+      );
 
-    var weeks = m.localeData().weekdaysShort();
-    weeks = weeks.slice(firstDayOfWeek).concat(weeks.slice(0, firstDayOfWeek));
+    } else {
+      var current = m.date();
+      var firstDayOfWeek = m.localeData().firstDayOfWeek();
+      var endOfPreviousMonth = m.clone().subtract(1, 'month').endOf('month').date();
+      var startDayOfCurrentMonth = m.clone().date(1).day();
+      var endOfCurrentMonth = m.clone().endOf('month').date();
+
+      var days = [].concat(
+        range(
+          (endOfPreviousMonth - startDayOfCurrentMonth + firstDayOfWeek + 1),
+          (endOfPreviousMonth + 1)
+        ),
+        range(
+          1,
+          (endOfCurrentMonth + 1)
+        ),
+        range(
+          1,
+          (42 - endOfCurrentMonth - startDayOfCurrentMonth + firstDayOfWeek + 1)
+        )
+      );
+
+      var weeks = m.localeData().weekdaysShort();
+      weeks = weeks.slice(firstDayOfWeek).concat(weeks.slice(0, firstDayOfWeek));
+
+      content = (
+        <div>
+          <CalendarToolbar
+            display={m.format('MMMM YYYY')}
+            onPrevious={this.prevMonth}
+            onNext={this.nextMonth}
+            onScope={this.onScopeChange}
+            />
+
+          <table>
+            <thead>
+              <tr>
+                {weeks.map((w, i) => <td key={i}>{w}</td>)}
+              </tr>
+            </thead>
+
+            <tbody>
+              {chunk(days, 7).map((row, w) => (
+                <tr key={w}>
+                  {row.map((i) => (
+                    <Day key={i} i={i} d={current} w={w}
+                      onClick={this.selectDate.bind(null, i, w)}
+                    />
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    }
 
     return (
       <div className={cx('m-calendar', this.props.className)}>
-        <div className="toolbar">
-          <LeftIcon
-            className="nav prev"
-            onClick={this.prevMonth}
-            />
-          <span className="current-date">{m.format('MMMM YYYY')}</span>
-          <RightIcon
-            className="nav next"
-            onClick={this.nextMonth}
-            />
-        </div>
-
-        <table>
-          <thead>
-            <tr>
-              {weeks.map((w, i) => <td key={i}>{w}</td>)}
-            </tr>
-          </thead>
-
-          <tbody>
-            {chunk(days, 7).map((row, w) => (
-              <tr key={w}>
-                {row.map((i) => (
-                  <Day key={i} i={i} d={current} w={w}
-                    onClick={this.selectDate.bind(null, i, w)}
-                  />
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {content}
       </div>
     );
+  },
+
+  onScopeChange(e) {
+    this.setState({
+      mode: 'scope',
+    });
+  },
+
+  onScopeComplete(m) {
+    this.setState({
+      mode: 'date',
+    }, () => { this.props.onChange(m); });
   },
 
   selectDate(i, w) {

@@ -14,6 +14,11 @@
     cursor: pointer;
     color: @color-gray;
     border: 1px solid @color-gray;
+
+    &.current {
+      color: @color-blue;
+      font-weight: bold;
+    }
   }
 
   thead {
@@ -34,11 +39,6 @@
       border-color: @color-blue;
       color: @color-white;
     }
-  }
-
-  .current-day {
-    color: @color-blue;
-    font-weight: bold;
   }
 
   .prev-month,
@@ -84,6 +84,8 @@
 
     .current-date {
       color: @color-blue;
+      cursor: pointer;
     }
   }
 }
+
