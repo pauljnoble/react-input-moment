@@ -51,7 +51,7 @@
 
   .tab {
     display: none;
-    height: 310px;
+    height: 300px;
 
     &.is-active {
       display: block;
@@ -65,16 +65,28 @@
 
 
 .m-buffered {
+  .m-buffered-controls {
+    display: flex;
+    margin-top: 15px;
+
+    .im-btn {
+        padding: 12px 0;
+        text-align: center;
+        color: #ffffff;
+        font-size: 16px;
+        border-radius: 3px;
+        margin: 0 5px;
+    }
+  }
+
   .btn-save {
-    display: block;
-    margin-top: 10px;
-    width: 100%;
+    flex-grow: 4;
     background-color: @color-blue;
-    padding: 12px 0;
-    text-align: center;
-    color: #ffffff;
-    font-size: 16px;
-    border-radius: 3px;
+  }
+
+  .btn-cancel {
+    flex-grow: 1;
+    background-color: #8f8f8f;
   }
 }
 

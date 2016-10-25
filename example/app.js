@@ -26,7 +26,7 @@ var App = React.createClass({
 
   getMomentDisplay(demo) {
     var m = this.state[demo + '_m'];
-    return m.format('llll');
+    return m ? m.format('llll') : '';
   },
 
   render() {
@@ -88,6 +88,7 @@ var App = React.createClass({
               locale={this.state.locale}
               showSeconds={this.state.showSeconds}
               onChange={this.handleChange.bind(this, 'bufferedinputmoment')}
+              onCancel={this.handleCancel.bind(this, 'bufferedinputmoment')}
             />
           </div>
         </div>
@@ -120,6 +121,7 @@ var App = React.createClass({
               locale={this.state.locale}
               showSeconds={this.state.showSeconds}
               onChange={this.handleChange.bind(this, 'bufferedcalendar')}
+              onCancel={this.handleCancel.bind(this, 'bufferedcalendar')}
             />
           </div>
         </div>
@@ -152,6 +154,7 @@ var App = React.createClass({
               locale={this.state.locale}
               showSeconds={this.state.showSeconds}
               onChange={this.handleChange.bind(this, 'bufferedclock')}
+              onCancel={this.handleCancel.bind(this, 'bufferedclock')}
             />
           </div>
         </div>
@@ -170,6 +173,10 @@ var App = React.createClass({
 
   handleChange(demo, m) {
     this.setState({[demo + '_m']: m});
+  },
+
+  handleCancel(demo) {
+    this.setState({[demo + '_m']: null});
   }
 });
 

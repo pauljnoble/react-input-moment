@@ -1,10 +1,17 @@
 var React = require('react');
 
+var CancelIcon = require('react-icons/lib/fa/times-circle');
 var CheckIcon = require('react-icons/lib/fa/check');
 
 
 module.exports = React.createClass({
   displayName: 'BufferedComponent',
+
+  getDefaultProps() {
+    return {
+      onCancel: () => {}
+    };
+  },
 
   getInitialState() {
     return {
@@ -27,13 +34,21 @@ module.exports = React.createClass({
           moment={this.state.m}
           onChange={this.handleChange}
           />
-        <button
-          type="button"
-          className="im-btn btn-save"
-          onClick={this.handleSave}>
-          <CheckIcon style={{marginRight: '5px'}} />
-          Save
-        </button>
+        <div className="m-buffered-controls">
+          <button
+            type="button"
+            className="im-btn btn-save"
+            onClick={this.handleSave}>
+            <CheckIcon style={{marginRight: '5px'}} />
+            Save
+          </button>
+          <button
+            type="button"
+            className="im-btn btn-cancel"
+            onClick={this.handleCancel}>
+            <CancelIcon />
+          </button>
+        </div>
       </div>
     );
   },
@@ -43,7 +58,13 @@ module.exports = React.createClass({
   },
 
   handleSave(e) {
+    e.preventDefault();
     this.props.onChange(this.state.m);
+  },
+
+  handleCancel(e) {
+    e.preventDefault();
+    this.props.onCancel();
   }
 });
 
